@@ -11,6 +11,8 @@ import subprocess
 from PIL import Image
 
 
+VARSION = 1
+DEVOLOPER = "CODEHEMU"
 try:
     IMG_FILE_NAME = "".join([datetime.now().strftime("%y%m%d%H%M%S"),'.JPG'])
     IMG_FILE_NAME_WEBP = "".join([datetime.now().strftime("%y%m%d%H%M%S"),'.webp'])
