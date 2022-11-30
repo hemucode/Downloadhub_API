@@ -24,8 +24,12 @@ try:
         subprocess.Popen('python edit.py', shell=True)
         exit()
 
-    if NUMBER ==3:
+    if NUMBER ==4:
         subprocess.Popen('python blogger.py', shell=True)
+        exit()
+
+    if NUMBER == 3:
+        subprocess.Popen('python replace.py', shell=True)
         exit()
 
     if NUMBER ==1:   
@@ -99,8 +103,7 @@ try:
             json.dump(DATA, open(DATA_FILE, "w"), indent = 2)
         
         if NEWS_IMG and NEWS_CONTENT and MOVIES_TITLE:
-            OPEN2 = 'python edit.py'
-            subprocess.Popen(OPEN2, shell=True)
+            subprocess.Popen('python edit.py', shell=True)
     else:
         print("UPDATE....")
 

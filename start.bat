@@ -1,3 +1,3 @@
 @echo off
 cls
-python scanner.py
+python start.py

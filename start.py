@@ -1,118 +1,103 @@
 #!/usr/bin/env python3
-import requests
-import glob
-import os
-import json
-import time
-from datetime import datetime
+import requests,os,json,subprocess;
 from bs4 import BeautifulSoup
-import re
-import subprocess
-from PIL import Image
+import time
+
+headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+
+COMMENT = 0
+DATA_FILE = 'data.json'
+with open(DATA_FILE) as MAIN_DATA:
+    DATA = json.load(MAIN_DATA)
 
 
-VARSION = 1
-DEVOLOPER = "CODEHEMU"
+def UPLOAD_FILE():
+    COMMENT_TEIL = "....."
+    print(COMMENT + COMMENT_TEIL)
+    COMMENT_TEIL = COMMENT_TEIL + "..."
+    R1 = requests.get('https://raw.githubusercontent.com/hemucode/Downloadhub_API/main/data.json')
+    with open("data.json", 'wb') as A1:
+        A1.write(R1.content)
+    time.sleep(1)
+    print(COMMENT + COMMENT_TEIL)
+    COMMENT_TEIL = COMMENT_TEIL + "..."
+    R2 = requests.get('https://raw.githubusercontent.com/hemucode/Downloadhub_API/main/scanner.py')
+    with open("scanner.py", 'wb') as A2:
+        A2.write(R2.content)
+    time.sleep(1)
+    print(COMMENT + COMMENT_TEIL)
+    COMMENT_TEIL = COMMENT_TEIL + "..."
+    R3 = requests.get('https://raw.githubusercontent.com/hemucode/Downloadhub_API/main/edit.py')
+    with open("edit.py", 'wb') as A3:
+        A3.write(R3.content)
+    time.sleep(1)
+    print(COMMENT + COMMENT_TEIL)
+    COMMENT_TEIL = COMMENT_TEIL + "..."
+    R4 = requests.get('https://raw.githubusercontent.com/hemucode/Downloadhub_API/main/blogger.py')
+    with open("blogger.py", 'wb') as A4:
+        A4.write(R4.content)
+    time.sleep(1)
+    print(COMMENT + COMMENT_TEIL)
+    COMMENT_TEIL = COMMENT_TEIL + "..."
+    R5 = requests.get('https://raw.githubusercontent.com/hemucode/Downloadhub_API/main/start.py')
+    with open("blogger.py", 'wb') as A5:
+        A5.write(R5.content)
+    time.sleep(1)
+    print(COMMENT + COMMENT_TEIL)
+    COMMENT_TEIL = COMMENT_TEIL + "..."
+    R6 = requests.get('https://raw.githubusercontent.com/hemucode/Downloadhub_API/main/client_secrets.json')
+    with open("client_secrets.json", 'wb') as A6:
+        A6.write(R6.content)
+    time.sleep(1)
+    print(COMMENT + COMMENT_TEIL)
+    COMMENT_TEIL = COMMENT_TEIL + "..."
+    R7 = requests.get('https://raw.githubusercontent.com/hemucode/Downloadhub_API/main/client_secrets.json')
+    with open("client_secrets.json", 'wb') as A7:
+        A7.write(R7.content)
+    time.sleep(1)
+    print(COMMENT + COMMENT_TEIL)
+    COMMENT_TEIL = COMMENT_TEIL + "..."
+    R8 = requests.get('https://raw.githubusercontent.com/hemucode/Downloadhub_API/main/Google.py')
+    with open("Google.py", 'wb') as A8:
+        A8.write(R8.content)
+    time.sleep(1)
+    print(COMMENT + COMMENT_TEIL)
+    COMMENT_TEIL = COMMENT_TEIL + "..."
+    R9 = requests.get('https://raw.githubusercontent.com/hemucode/Downloadhub_API/main/replace.py')
+    with open("replace.py", 'wb') as A9:
+        A9.write(R9.content)
+    time.sleep(1)
+    print(COMMENT + COMMENT_TEIL)
+    COMMENT_TEIL = COMMENT_TEIL + "..."
+
+
 try:
-    IMG_FILE_NAME = "".join([datetime.now().strftime("%y%m%d%H%M%S"),'.JPG'])
-    IMG_FILE_NAME_WEBP = "".join([datetime.now().strftime("%y%m%d%H%M%S"),'.webp'])
-    TEXT_FILE_NAME = "".join([datetime.now().strftime("%y%m%d%H%M%S"),'.txt'])
-    DATA_FILE = 'data.json'
-    with open(DATA_FILE) as MAIN_DATA:
-        DATA = json.load(MAIN_DATA)
+    #Requests FROM NEW Sitemap URL 
+    SITEMAP_URL = "https://raw.githubusercontent.com/hemucode/Downloadhub_API/main/data.json"
+    NEWS_DATA = requests.get(SITEMAP_URL,headers=headers).content.decode('utf-8').encode('cp850','replace').decode('cp850')
+    NEWS_SOUP = BeautifulSoup(NEWS_DATA, "html.parser")
+    #print(NEWS_SOUP)
+    SITE_JSON=json.loads(NEWS_SOUP.text)
+    # print(SITE_JSON['VARSION'])
 
-    NUMBER = DATA['STATUS']
-    if NUMBER ==2:
-        subprocess.Popen('python edit.py', shell=True)
-        exit()
-
-    if NUMBER ==3:
-        subprocess.Popen('python blogger.py', shell=True)
-        exit()
-
-    if NUMBER ==1:   
-        #Requests FROM NEW Sitemap URL 
-        SITEMAP_URL = DATA['SITEMAP']
-        headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
-        NEWS_DATA = requests.get(SITEMAP_URL,headers=headers).content.decode('utf-8').encode('cp850','replace').decode('cp850')
-        NEWS_SOUP = BeautifulSoup(NEWS_DATA, "xml")
-        # print(NEWS_SOUP)
-        print("")
-        print("SCANNING SITEMAP.....")
-        print("")
-
-        SEANN_NO_OF_URL = DATA['SEANN_NO_OF_URL']
-        NEW_URL = NEWS_SOUP.findAll('loc')[SEANN_NO_OF_URL].text
-        # print(NEW_URL)
-
-        if NEW_URL:
-            # DATA['SEANN_NO_OF_URL'] = SEANN_NO_OF_URL +1
-            MOVIES_DATA = requests.get(NEW_URL,headers=headers).content.decode('utf-8').encode('cp850','replace').decode('cp850')
-            MOVIES_SOUP = BeautifulSoup(MOVIES_DATA, "xml")
-            MOVIES_TITLE = MOVIES_SOUP.findAll('span', class_="material-text")[0].text
-            MOVIES_TITLE_PURE = re.sub(r' +', ' ', MOVIES_TITLE).replace('\n ','').replace('\n','')
-            # print(MOVIES_TITLE_PURE)
-            print("SCANNING NEW URL.....")
-            print("")
-
-            NEWS_CONTENT = MOVIES_SOUP.find('main',class_="page-body")
-
-
-            if NEWS_CONTENT:    
-                with open("content/" + TEXT_FILE_NAME, "a") as out_file:
-                    CONTENT_1 = NEWS_CONTENT.find_all('p')[0]
-                    CONTENT_2 = NEWS_CONTENT.find_all('p')[2]
-                    CONTENT_3 = NEWS_CONTENT.find_all('p')[3]
-                    data = ''
-                    for data in CONTENT_1,CONTENT_2,CONTENT_3:
-                        ALL_CONTENT = (data.get_text())
-                        # print(ALL_CONTENT)
-                        MOVIES_BODY = re.sub(r' +', ' ', ALL_CONTENT).replace('\n ','').replace('\n','')
-                        out_file.writelines(data for data in MOVIES_BODY)
-                        # print(MOVIES_BODY)
+    if DATA['VARSION'] != SITE_JSON['VARSION']:
+        print("APPLICATION ARE NOT UPDATE:  OPTIONS : [u]UPDATE or [n]NOT UPDATE")
+        OPTIONS = input("WATI YOUR ANS: ")
+        if OPTIONS:
+            if OPTIONS == "u":
+                COMMENT = "[+] UPDATE"
+                UPLOAD_FILE()
+                print("")
+                print("UPDATE COMPLITED!")
+                subprocess.Popen('python scanner.py', shell=True)
             
-            NEWS_IMG = NEWS_CONTENT.find_all('p')[1]
-            # print(NEWS_IMG)
-            if NEWS_IMG :
-                DATA['IMAGES'] = 'images/' + IMG_FILE_NAME
-                img = requests.get(NEWS_IMG.img['src'],headers=headers)
-                with open('images/' + IMG_FILE_NAME, 'wb') as imgf:
-                    imgf.write(img.content)
-                    print("IMAGE RESIZE AND CONVERT........")
-                    time.sleep(2)
-                    print("")
-                    img = Image.open('images/' + IMG_FILE_NAME)
-                    # img.show()
-                    img_resized = img.resize((113, 169), Image.Resampling.LANCZOS)
-                    image = img_resized.convert('RGB')
-                    image.save('edit_images/'+ IMG_FILE_NAME_WEBP, format='webp')
-                         
-            else:
-                print("IMAGES NOT FOUND!")
-                DATA['IMAGES'] = ""
-                
-            DATA['STATUS'] = 2  
-            DATA['MOVIES_DEATILS'] = "content/" + TEXT_FILE_NAME
-            DATA['MOVIES_TITLE'] =  MOVIES_TITLE_PURE
-            json.dump(DATA, open(DATA_FILE, "w"), indent = 2)
-
         else:
-            DATA['SEANN_NO_OF_URL'] = SEANN_NO_OF_URL +1
-            json.dump(DATA, open(DATA_FILE, "w"), indent = 2)
-        
-        if NEWS_IMG and NEWS_CONTENT and MOVIES_TITLE:
-            OPEN2 = 'python edit.py'
-            subprocess.Popen(OPEN2, shell=True)
-    else:
-        print("UPDATE....")
-
-
+            subprocess.Popen('python scanner.py', shell=True)
+               
 except Exception as e:   
-        print("SCANNIMG ERROR........")  
+        print("UPDATE ERROR........")  
         print(e)
-        DATA['STATUS'] = 1
-        SEANN_NO_OF_URL = DATA['SEANN_NO_OF_URL']
-        DATA['SEANN_NO_OF_URL'] = SEANN_NO_OF_URL + 1
-        json.dump(DATA, open(DATA_FILE, "w"), indent = 2) 
-        subprocess.Popen('python scanner.py', shell=True)
-        exit()
+
+
+        
+
