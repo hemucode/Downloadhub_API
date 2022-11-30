@@ -2,7 +2,6 @@
 import os,sys,time,re;
 import json
 from datetime import datetime
-import random
 import subprocess
 import requests
 from bs4 import BeautifulSoup
@@ -141,15 +140,16 @@ def IMDB_INPUT():
             json.dump(POST, open(POST_FILE, "w"), indent = 2)
         
         if OPTIONS_MOVIES_IMDB =="m":
-            POST['MOVIES_IMDB'] = "https://www.imdb.com/find?q=" + MOVIES_NAME
+            MOVIES_IMDB ="https://www.imdb.com/find?q=" + MOVIES_NAME 
+            POST['MOVIES_IMDB'] = MOVIES_IMDB
+            json.dump(POST, open(POST_FILE, "w"), indent = 2)
+
+        else:
+            MOVIES_IMDB ="https://www.imdb.com/find?q=" + MOVIES_NAME 
+            POST['MOVIES_IMDB'] = MOVIES_IMDB
             json.dump(POST, open(POST_FILE, "w"), indent = 2)
 
         
-        MOVIES_IMDB = input(WARNING +"ADD MOVIES IMDB URL: "+ CEND)
-        POST['MOVIES_IMDB'] = MOVIES_IMDB
-        json.dump(POST, open(POST_FILE, "w"), indent = 2)
-
-
 def DATE_INPUT():
     print("")
     MOVIES_NAME = POST['MOVIES_NAME']
@@ -191,14 +191,14 @@ try:
             IMAGE_INPUT() 
             DATA['STATUS'] = 3  
             json.dump(DATA, open(DATA_FILE, "w"), indent = 2)
-            subprocess.Popen('replace.py', shell=True) 
+            subprocess.Popen('python replace.py', shell=True) 
 
         if DATA["TEMPLATE"] == 2:
             MAIN_INPUT()
             IMAGE_INPUT()
             DATA['STATUS'] = 3  
             json.dump(DATA, open(DATA_FILE, "w"), indent = 2)
-            subprocess.Popen('replace.py', shell=True) 
+            subprocess.Popen('python replace.py', shell=True) 
 
    
         if DATA["TEMPLATE"] == 3:
@@ -208,7 +208,7 @@ try:
             IMAGE_INPUT()
             DATA['STATUS'] = 3  
             json.dump(DATA, open(DATA_FILE, "w"), indent = 2) 
-            subprocess.Popen('replace.py', shell=True) 
+            subprocess.Popen('python replace.py', shell=True) 
 
 except Exception as e:   
         print("ERROR: edit.py")  

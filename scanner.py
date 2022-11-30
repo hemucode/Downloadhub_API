@@ -43,6 +43,7 @@ try:
         print("SCANNING SITEMAP.....")
         print("")
 
+
         SEANN_NO_OF_URL = DATA['SEANN_NO_OF_URL']
         NEW_URL = NEWS_SOUP.findAll('loc')[SEANN_NO_OF_URL].text
         # print(NEW_URL)

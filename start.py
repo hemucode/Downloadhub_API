@@ -91,8 +91,15 @@ try:
                 print("UPDATE COMPLITED!")
                 subprocess.Popen('python scanner.py', shell=True)
             
+            if OPTIONS == "n":
+                subprocess.Popen('python scanner.py', shell=True)
+            
+            else:
+                subprocess.Popen('python scanner.py', shell=True) 
         else:
             subprocess.Popen('python scanner.py', shell=True)
+    else:
+        subprocess.Popen('python scanner.py', shell=True)
                
 except Exception as e:   
         print("UPDATE ERROR........")  
