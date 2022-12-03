@@ -216,5 +216,8 @@ try:
 except Exception as e:   
         print("ERROR: edit.py")  
         print(e)
+        DATA['STATUS'] = 1  
+        json.dump(DATA, open(DATA_FILE, "w"), indent = 2) 
+        subprocess.Popen('python scanner.py', shell=True)
 
 
