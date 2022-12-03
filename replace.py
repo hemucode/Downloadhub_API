@@ -22,7 +22,7 @@ try:
     TEMPLATE = DATA["TEMPLATE"]
 
     if TEMPLATE:
-        if TEMPLATE == 1 or TEMPLATE == 2 or TEMPLATE == 3 or TEMPLATE == 4 :
+        if TEMPLATE == 1 or TEMPLATE == 2 or TEMPLATE == 3 or TEMPLATE == 4 or TEMPLATE == 5 :
             if MOVIES_NAME and MOVIES_NAME_MIX and MOVIES_IMG:
                 if TEMPLATE == 1:
                     print("")
@@ -47,6 +47,12 @@ try:
                     print('\033[94m' + "[+] SELECT TEMPLATE 4" + '\033[0m')
                     print("")
                     subprocess.Popen('python template_4.py', shell=True)
+                
+                if TEMPLATE == 5:
+                    print("")
+                    print('\033[94m' + "[+] SELECT TEMPLATE 5" + '\033[0m')
+                    print("")
+                    subprocess.Popen('python template_5.py', shell=True)
             else:
                 print("")
                 print('\033[93m' +"[+] POST DATA NOT FOUND WAIT..."+ '\033[0m')

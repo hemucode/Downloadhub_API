@@ -30,7 +30,6 @@ with open(POST_FILE) as POST_DATA:
 with open(DATA_FILE) as MAIN_DATA:
     DATA = json.load(MAIN_DATA)
 
-
 NUMBER = DATA['STATUS']
 
 
@@ -147,10 +146,7 @@ def IMDB_INPUT():
             POST['MOVIES_IMDB'] = MOVIES_IMDB
             json.dump(POST, open(POST_FILE, "w"), indent = 2)
 
-        else:
-            MOVIES_IMDB ="https://www.imdb.com/find?q=" + MOVIES_NAME 
-            POST['MOVIES_IMDB'] = MOVIES_IMDB
-            json.dump(POST, open(POST_FILE, "w"), indent = 2)
+
 
         
 def DATE_INPUT():
@@ -192,7 +188,7 @@ try:
     TEMPLATE = DATA["TEMPLATE"]
     if NUMBER == 2:
         PRINT_MOVIES_DATA()
-        if TEMPLATE == 1 or TEMPLATE == 2 or TEMPLATE == 3 or TEMPLATE == 4:
+        if TEMPLATE == 1 or TEMPLATE == 2 or TEMPLATE == 3 or TEMPLATE == 4 or TEMPLATE == 5:
             if TEMPLATE == 1 or TEMPLATE == 2 or TEMPLATE == 4:
                 MAIN_INPUT()
                 IMAGE_INPUT() 
@@ -200,7 +196,7 @@ try:
                 json.dump(DATA, open(DATA_FILE, "w"), indent = 2)
                 subprocess.Popen('python edit.py', shell=True)
 
-            if TEMPLATE == 3:
+            if TEMPLATE == 3 or TEMPLATE == 5:
                 MAIN_INPUT()
                 IMAGE_INPUT()
                 json.dump(DATA, open(DATA_FILE, "w"), indent = 2) 

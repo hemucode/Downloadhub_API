@@ -30,7 +30,7 @@ try:
             file.write(TEMPLATE)
         POST['MOVIES_CONTENT'] = "post/"+TEXT_FILE_NAME
         DATA['STATUS'] = 4  
-        DATA['TEMPLATE'] = 1
+        DATA['TEMPLATE'] = TEMPLATE_NO + 1
         json.dump(POST, open(POST_FILE, "w"), indent = 2)
         json.dump(DATA, open(DATA_FILE, "w"), indent = 2)
         print('\033[92m'+"[+] POST RADY FOR UPLOAD" + '\033[0m') 
