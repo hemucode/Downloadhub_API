@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import requests
-import glob
 import os
 import json
 import time
@@ -10,6 +9,8 @@ import re
 import subprocess
 from PIL import Image
 
+os.system('color')
+
 
 try:
     IMG_FILE_NAME = "".join([datetime.now().strftime("%y%m%d%H%M%S"),'.JPG'])
@@ -18,13 +19,16 @@ try:
     DATA_FILE = 'data.json'
     with open(DATA_FILE) as MAIN_DATA:
         DATA = json.load(MAIN_DATA)
-
+    POST_FILE = 'post.json'
+    with open(POST_FILE) as POST_DATA:
+        POST = json.load(POST_DATA)
+    
     NUMBER = DATA['STATUS']
-    if NUMBER ==2:
+    if NUMBER == 2:
         subprocess.Popen('python edit.py', shell=True)
         exit()
 
-    if NUMBER ==4:
+    if NUMBER == 4:
         subprocess.Popen('python blogger.py', shell=True)
         exit()
 
@@ -32,7 +36,7 @@ try:
         subprocess.Popen('python replace.py', shell=True)
         exit()
 
-    if NUMBER ==1:   
+    if NUMBER == 1:   
         #Requests FROM NEW Sitemap URL 
         SITEMAP_URL = DATA['SITEMAP']
         headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
@@ -40,7 +44,7 @@ try:
         NEWS_SOUP = BeautifulSoup(NEWS_DATA, "xml")
         # print(NEWS_SOUP)
         print("")
-        print("SCANNING SITEMAP.....")
+        print('\033[95m'+"[+] SCANNING SITEMAP....."+'\033[0m')
         print("")
 
 
@@ -55,7 +59,7 @@ try:
             MOVIES_TITLE = MOVIES_SOUP.findAll('span', class_="material-text")[0].text
             MOVIES_TITLE_PURE = re.sub(r' +', ' ', MOVIES_TITLE).replace('\n ','').replace('\n','')
             # print(MOVIES_TITLE_PURE)
-            print("SCANNING NEW URL.....")
+            print('\033[94m' + "[+] SCANNING NEW URL....."+ '\033[0m')
             print("")
 
             NEWS_CONTENT = MOVIES_SOUP.find('main',class_="page-body")
@@ -81,7 +85,7 @@ try:
                 img = requests.get(NEWS_IMG.img['src'],headers=headers)
                 with open('images/' + IMG_FILE_NAME, 'wb') as imgf:
                     imgf.write(img.content)
-                    print("IMAGE RESIZE AND CONVERT........")
+                    print('\033[93m'+"[+] IMAGE RESIZE AND CONVERT........" +'\033[0m')
                     time.sleep(2)
                     print("")
                     img = Image.open('images/' + IMG_FILE_NAME)
@@ -89,6 +93,7 @@ try:
                     img_resized = img.resize((113, 169), Image.Resampling.LANCZOS)
                     image = img_resized.convert('RGB')
                     image.save('edit_images/'+ IMG_FILE_NAME_WEBP, format='webp')
+                    
                          
             else:
                 print("IMAGES NOT FOUND!")
@@ -104,7 +109,16 @@ try:
             json.dump(DATA, open(DATA_FILE, "w"), indent = 2)
         
         if NEWS_IMG and NEWS_CONTENT and MOVIES_TITLE:
+            POST['MOVIES_NAME'] = ""
+            POST['MOVIES_NAME_MIX'] = ""
+            POST['MOVIES_STORY'] = ""
+            POST['MOVIES_IMDB'] = ""
+            POST['MOVIES_DATE'] = ""
+            POST['MOVIES_IMG'] = ""
+            POST['MOVIES_CONTENT'] = ""
+            json.dump(POST, open(POST_FILE, "w"), indent = 2)
             subprocess.Popen('python edit.py', shell=True)
+            
     else:
         print("UPDATE....")
 

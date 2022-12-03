@@ -20,6 +20,8 @@ UNDERLINE = '\033[4m'
 CRED = '\033[91m'
 CEND = '\033[0m'
 
+
+
 DATA_FILE = 'data.json'
 POST_FILE = 'post.json'
 with open(POST_FILE) as POST_DATA:
@@ -28,13 +30,9 @@ with open(POST_FILE) as POST_DATA:
 with open(DATA_FILE) as MAIN_DATA:
     DATA = json.load(MAIN_DATA)
 
-IMG_FILE_NAME = "".join([datetime.now().strftime("%y%m%d%H%M%S"),'.JPG'])
-TEXT_FILE_NAME = "".join([datetime.now().strftime("%y%m%d%H%M%S"),'.txt'])
+
 NUMBER = DATA['STATUS']
 
-if NUMBER == 4:
-    subprocess.Popen('python blogger.py', shell=True)
-    exit()
 
 if NUMBER == 1:
     subprocess.Popen('python scanner.py', shell=True)
@@ -47,17 +45,17 @@ if NUMBER == 3:
 
 def PRINT_MOVIES_DATA():
     print('')
-    print(WARNING + "MOVIES TITLE: "+CRED + DATA['MOVIES_TITLE'] + CEND)
+    print(WARNING + "[+] MOVIES TITLE: "+CRED + DATA['MOVIES_TITLE'] + CEND)
     print('')
     CONTENT = DATA['MOVIES_DEATILS']
     with open(CONTENT) as CONTENT_DATA:
         NEWS_CONTENT = CONTENT_DATA.read()
-        print(WARNING + "MOVIES CONTENT: "+ OKCYAN + NEWS_CONTENT + CEND)
+        print(WARNING + "[+] MOVIES CONTENT: "+ OKCYAN + NEWS_CONTENT + CEND)
         print("")
         print("")
 
 def MAIN_INPUT():
-    MOVIES_NAME = input(WARNING +"EDIT MOVIES NAME: "+ CEND)
+    MOVIES_NAME = input(WARNING +"[+] EDIT MOVIES NAME: "+ CEND)
     while not MOVIES_NAME:
         print("\n[+]"+FAIL+" Are You Skip Next Movies? OPTIONS : "+OKGREEN+"[n]Next"+CEND+" or "+OKBLUE+"[a]Add Url Number"+CEND)
         print("")
@@ -71,7 +69,7 @@ def MAIN_INPUT():
             exit()
         if OPTIONS=="a":
             print("")
-            ADD_URL_NO_OPTIONS = int(input(WARNING +"Add Url Number: "+ CEND))
+            ADD_URL_NO_OPTIONS = int(input(WARNING +"[+] Add Url Number: "+ CEND))
             if ADD_URL_NO_OPTIONS:
                 DATA['STATUS'] = 1
                 DATA['SEANN_NO_OF_URL'] = ADD_URL_NO_OPTIONS
@@ -80,21 +78,21 @@ def MAIN_INPUT():
                 exit()
         else:
             print("")
-            MOVIES_NAME = input(WARNING +"EDIT MOVIES NAME: "+ CEND)
+            MOVIES_NAME = input(WARNING +"[+] EDIT MOVIES NAME: "+ CEND)
                 
     print("")
 
-    MOVIES_NAME_MIX = input(WARNING +"EDIT MOVIES NAME MIX: "+ CEND)
+    MOVIES_NAME_MIX = input(WARNING +"[+] EDIT MOVIES NAME MIX: "+ CEND)
     while not MOVIES_NAME_MIX:
         print("\n[-] You must enter a MOVIES NAME  MIX at least!", file=sys.stderr)
-        MOVIES_NAME_MIX = input("EDIT  MOVIES NAME MIX: ")
+        MOVIES_NAME_MIX = input("[+] EDIT  MOVIES NAME MIX: ")
 
     print("")
 
-    MOVIES_STORY = input(WARNING +"ADD MOVIES STORY: "+ CEND)
+    MOVIES_STORY = input(WARNING +"[+] ADD MOVIES STORY: "+ CEND)
     while not MOVIES_STORY:
         print("\n[-] You must enter a MOVIES  STORY at least!", file=sys.stderr)
-        MOVIES_STORY = input("ADD MOVIES _STORY: ")
+        MOVIES_STORY = input("[+] ADD MOVIES _STORY: ")
 
     POST['MOVIES_TITLE'] =  DATA['MOVIES_TITLE']
     POST['MOVIES_NAME'] = MOVIES_NAME
@@ -105,11 +103,13 @@ def MAIN_INPUT():
 
 def IMAGE_INPUT():
     print("")
-    MOVIES_IMG = input(WARNING +"ADD MOVIES IMG: "+ CEND)
+    MOVIES_IMG = input(WARNING +"[+] ADD MOVIES IMG: "+ CEND)
     while not MOVIES_IMG:
         print("\n[-] You must enter a MOVIES IMG at least!", file=sys.stderr)
-        MOVIES_IMG = input("ADD MOVIES IMG: ")
-
+        MOVIES_IMG = input(WARNING +"[+] ADD MOVIES IMG: "+ CEND)
+        if not MOVIES_IMG:
+            subprocess.Popen('python edit.py', shell=True)
+            exit()
     POST['MOVIES_IMG'] = MOVIES_IMG
     json.dump(POST, open(POST_FILE, "w"), indent = 2)
 
@@ -117,7 +117,7 @@ def IMAGE_INPUT():
 def IMDB_INPUT():
     print("")
     MOVIES_NAME = POST['MOVIES_NAME']
-    MOVIES_IMDB = input(WARNING +"ADD MOVIES IMDB URL: "+ CEND)
+    MOVIES_IMDB = input(WARNING +"[+] ADD MOVIES IMDB URL: "+ CEND)
     POST['MOVIES_IMDB'] = MOVIES_IMDB
     json.dump(POST, open(POST_FILE, "w"), indent = 2)
     while not MOVIES_IMDB:
@@ -131,11 +131,14 @@ def IMDB_INPUT():
             IMDB_CONTENT = IMDB_SOUP.find('div',class_="kCrYT").a['href']
             print(WARNING +IMDB_CONTENT +CEND)
             print("")
+            MOVIES_IMDB = input(WARNING +"ADD MOVIES IMDB URL: "+ CEND)
+            POST['MOVIES_IMDB'] = MOVIES_IMDB
+            json.dump(POST, open(POST_FILE, "w"), indent = 2)
             
         if OPTIONS_MOVIES_IMDB =="n":
             print("")
             print("\n[-] You must enter a EDIT MOVIES RELEASE DATE at least!", file=sys.stderr)
-            MOVIES_IMDB = input(WARNING +"ADD MOVIES IMDB URL: "+ CEND)
+            MOVIES_IMDB = input(WARNING +"[+] ADD MOVIES IMDB URL: "+ CEND)
             POST['MOVIES_IMDB'] = MOVIES_IMDB
             json.dump(POST, open(POST_FILE, "w"), indent = 2)
         
@@ -153,7 +156,7 @@ def IMDB_INPUT():
 def DATE_INPUT():
     print("")
     MOVIES_NAME = POST['MOVIES_NAME']
-    MOVIES_DATE = input(WARNING +"EDIT MOVIES RELEASE DATE: "+ CEND)
+    MOVIES_DATE = input(WARNING +"[+] EDIT MOVIES RELEASE DATE: "+ CEND)
     POST['MOVIES_DATE'] = MOVIES_DATE
     json.dump(POST, open(POST_FILE, "w"), indent = 2)
     while not MOVIES_DATE:
@@ -172,7 +175,7 @@ def DATE_INPUT():
                     print(WARNING + MOVIES_BODY + CEND)
                     print("")
 
-        MOVIES_DATE = input(WARNING +"EDIT MOVIES RELEASE DATE: "+ CEND)
+        MOVIES_DATE = input(WARNING +"[+] EDIT MOVIES RELEASE DATE: "+ CEND)
         POST['MOVIES_DATE'] = MOVIES_DATE
         json.dump(POST, open(POST_FILE, "w"), indent = 2)    
 
@@ -183,33 +186,37 @@ def DATE_INPUT():
             POST['MOVIES_DATE'] = MOVIES_DATE
             json.dump(POST, open(POST_FILE, "w"), indent = 2)
 
+
+
 try:
+    TEMPLATE = DATA["TEMPLATE"]
     if NUMBER == 2:
         PRINT_MOVIES_DATA()
-        if DATA["TEMPLATE"] == 1:
-            MAIN_INPUT()
-            IMAGE_INPUT() 
-            DATA['STATUS'] = 3  
-            json.dump(DATA, open(DATA_FILE, "w"), indent = 2)
-            subprocess.Popen('python replace.py', shell=True) 
+        if TEMPLATE == 1 or TEMPLATE == 2 or TEMPLATE == 3 or TEMPLATE == 4:
+            if TEMPLATE == 1 or TEMPLATE == 2 or TEMPLATE == 4:
+                MAIN_INPUT()
+                IMAGE_INPUT() 
+                DATA['STATUS'] = 3  
+                json.dump(DATA, open(DATA_FILE, "w"), indent = 2)
+                subprocess.Popen('python edit.py', shell=True)
 
-        if DATA["TEMPLATE"] == 2:
-            MAIN_INPUT()
-            IMAGE_INPUT()
-            DATA['STATUS'] = 3  
+            if TEMPLATE == 3:
+                MAIN_INPUT()
+                IMAGE_INPUT()
+                json.dump(DATA, open(DATA_FILE, "w"), indent = 2) 
+                IMDB_INPUT()
+                DATE_INPUT()
+                DATA['STATUS'] = 3  
+                json.dump(DATA, open(DATA_FILE, "w"), indent = 2) 
+                subprocess.Popen('python edit.py', shell=True)
+        else:
+            print("")
+            DATA["TEMPLATE"] = int(input('\033[93m' +"UPLOAD TEMPLATE NUMBER: "+ '\033[0m'))
+            print("")
+            json.dump(POST, open(POST_FILE, "w"), indent = 2)
             json.dump(DATA, open(DATA_FILE, "w"), indent = 2)
-            subprocess.Popen('python replace.py', shell=True) 
-
+            subprocess.Popen('python edit.py', shell=True)
    
-        if DATA["TEMPLATE"] == 3:
-            MAIN_INPUT()
-            IMDB_INPUT()
-            DATE_INPUT()
-            IMAGE_INPUT()
-            DATA['STATUS'] = 3  
-            json.dump(DATA, open(DATA_FILE, "w"), indent = 2) 
-            subprocess.Popen('python replace.py', shell=True) 
-
 except Exception as e:   
         print("ERROR: edit.py")  
         print(e)
