@@ -1,9 +1,10 @@
 {
-  "STATUS": 2,
-  "TEMPLATE": 1,
-  "SEANN_NO_OF_URL": 74,
+  "AUTO": 0,
+  "STATUS": 1,
+  "TEMPLATE": 4,
+  "SEANN_NO_OF_URL": 1,
   "SITEMAP": "https://downloadhub.homes/sitemap-pt-post-2022-11.xml",
-  "MOVIES_TITLE": "Meet Cute 2022 Hindi Dual Audio 1080p 720p 480p Web-DL MSubs HEVC ",
-  "IMAGES": "images/221203113530.JPG",
-  "MOVIES_DEATILS": "content/221203113530.txt"
+  "MOVIES_TITLE": "Overlord: The Dark Hero English Movie",
+  "IMAGES": "images/221203200316.JPG",
+  "MOVIES_DEATILS": "content/221203200030.txt"
 }

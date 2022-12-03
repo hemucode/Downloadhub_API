@@ -4,7 +4,8 @@ import subprocess
 import random
 import re
 
-TAG = random.choice(["Download MP4moviez and Telegram to Watch Online","Download in Downloadhub","Movie download filmyzilla","Movie Download in filmywap","movie download vegamovies","Movie download telegram","Movie download telegram link","Movie Download in telegram","download movie in telegram link","movie download hdhub4u","full Movie download filmymeet","full Movie download link","Movie download filmy4wap","Movie Download in Hindi filmyzilla"])
+TAG = random.choice(["Download MP4moviez and Telegram to Watch Online","Download in Downloadhub 1080p 720p 480p","download filmyzilla 1080p 720p 480p","Download in filmywap 1080p 720p 480p","download vegamovies1080p 720p 480p","download telegram 1080p 720p 480p ","download telegram link","Download in telegram 1080p 720p 480p","download in telegram link 1080p 720p 480p","download hdhub4u 1080p 720p 480p","full download filmymeet 1080p 720p 480p","full download link 1080p 720p 480p","download filmy4wap 1080p 720p 480p","Download in Hindi filmyzilla 1080p 720p 480p","Watch Online 1080p 720p 480p","Download in Downloadhub 480p 720p  1080p","download filmyzilla 480p 720p  1080p","Download in filmywap 480p 720p  1080p","download vegamovies 480p 720p 1080p","download telegram 480p 720p 1080p","download telegram link 720p 480p 720p 1080p","Download in telegram 480p 720p 1080p","download in telegram link 480p 720p 1080p","download hdhub4u  480p 720p 1080p","full download filmymeet 480p 720p 1080p","full download link 480p 720p 1080p","download filmy4wap 480p 720p 1080p","Download in Hindi filmyzilla 480p 720p 1080p"," download in telugu movierulz"," download in telugu movierulz 480p 720p 1080p","download in Tamil kuttymovies 480p 720p 1080p"])
+
 POST_FILE = 'post.json'
 with open(POST_FILE) as POST_DATA:
     POST = json.load(POST_DATA)
@@ -76,13 +77,37 @@ else:
         # print(res)
         print("")
         print("[+][+][+][+][+] POST COMPLITED! [+][+][+][+][+][+]")
-        SEANN_NO_OF_URL = DATA['SEANN_NO_OF_URL']
-        DATA['SEANN_NO_OF_URL'] = SEANN_NO_OF_URL +1   
-        DATA['STATUS'] = 1
-        json.dump(DATA, open(DATA_FILE, "w"), indent = 2)
-        subprocess.Popen('python scanner.py', shell=True)
-        exit()
 
+        if DATA['AUTO'] == 1:
+            SEANN_NO_OF_URL = DATA['SEANN_NO_OF_URL']
+            DATA['SEANN_NO_OF_URL'] = SEANN_NO_OF_URL +1   
+            DATA['STATUS'] = 1
+            json.dump(DATA, open(DATA_FILE, "w"), indent = 2)
+            subprocess.Popen('python scanner.py', shell=True)
+            POST['MOVIES_NAME'] = ""
+            POST['MOVIES_NAME_MIX'] = ""
+            POST['MOVIES_STORY'] = ""
+            POST['MOVIES_IMDB'] = ""
+            POST['MOVIES_DATE'] = ""
+            POST['MOVIES_IMG'] = ""
+            POST['MOVIES_CONTENT'] = ""
+            json.dump(POST, open(POST_FILE, "w"), indent = 2)
+            exit()
+
+        if DATA['AUTO'] == 0:
+            DATA['STATUS'] = 1
+            json.dump(DATA, open(DATA_FILE, "w"), indent = 2)
+            subprocess.Popen('python input.py', shell=True)
+            POST['MOVIES_NAME'] = ""
+            POST['MOVIES_NAME_MIX'] = ""
+            POST['MOVIES_STORY'] = ""
+            POST['MOVIES_IMDB'] = ""
+            POST['MOVIES_DATE'] = ""
+            POST['MOVIES_IMG'] = ""
+            POST['MOVIES_CONTENT'] = ""
+            json.dump(POST, open(POST_FILE, "w"), indent = 2)
+            exit()
+        
     except Exception as e:   
         print("ERROR FROM FILE NAME upload.py: ") 
         print('pip install --upgrade google-api-python-client') 

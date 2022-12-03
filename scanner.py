@@ -11,17 +11,21 @@ from PIL import Image
 
 os.system('color')
 
+DATA_FILE = 'data.json'
+with open(DATA_FILE) as MAIN_DATA:
+    DATA = json.load(MAIN_DATA)
+POST_FILE = 'post.json'
+with open(POST_FILE) as POST_DATA:
+    POST = json.load(POST_DATA)
+
+DATA['AUTO'] == 1
+json.dump(DATA, open(DATA_FILE, "w"), indent = 2)
 
 try:
     IMG_FILE_NAME = "".join([datetime.now().strftime("%y%m%d%H%M%S"),'.JPG'])
     IMG_FILE_NAME_WEBP = "".join([datetime.now().strftime("%y%m%d%H%M%S"),'.webp'])
     TEXT_FILE_NAME = "".join([datetime.now().strftime("%y%m%d%H%M%S"),'.txt'])
-    DATA_FILE = 'data.json'
-    with open(DATA_FILE) as MAIN_DATA:
-        DATA = json.load(MAIN_DATA)
-    POST_FILE = 'post.json'
-    with open(POST_FILE) as POST_DATA:
-        POST = json.load(POST_DATA)
+
     
     NUMBER = DATA['STATUS']
     if NUMBER == 2:
